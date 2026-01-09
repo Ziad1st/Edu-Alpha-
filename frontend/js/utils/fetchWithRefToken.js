@@ -12,10 +12,13 @@ export const smartFetch = async (url, options = {}) => {
   // إذا انتهت صلاحية التوكن
   if (response.status === 401) {
     // نطلب توكن جديد من مسار الـ refresh
-    const refreshRes = await fetch("http://localhost:5000/api/auth/refresh", {
-      method: "POST",
-      credentials: "include",
-    });
+    const refreshRes = await fetch(
+      "https://edu-alpha-neon.vercel.app/api/auth/refresh",
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
 
     if (refreshRes.ok) {
       const data = await refreshRes.json();

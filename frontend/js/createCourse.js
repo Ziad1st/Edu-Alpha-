@@ -20,7 +20,7 @@ window.addEventListener("load", async () => {
 
   /**@type {Array} */
   let categories = await fetchCategories(
-    "http://localhost:5000/api/categories/getAll"
+    "https://edu-alpha-neon.vercel.app/api/categories/getAll"
   );
 
   let domEl = ``;
@@ -52,7 +52,7 @@ courseForm.addEventListener("submit", async (e) => {
 
   try {
     const response = await fetch(
-      "http://localhost:5000/api/courses/createOne",
+      "https://edu-alpha-neon.vercel.app/api/courses/createOne",
       {
         method: "POST",
         headers: {

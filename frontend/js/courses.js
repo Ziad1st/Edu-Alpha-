@@ -30,14 +30,16 @@ window.addEventListener("load", async (e) => {
   contentLoad("on");
   if (window.location.search.includes("category")) {
     courses = await fetchCourses(
-      `http://localhost:5000/api/courses/category/${searchVal}`
+      `https://edu-alpha-neon.vercel.app/api/courses/category/${searchVal}`
     );
   } else if (window.location.search.includes("teatcher")) {
     courses = await fetchCourses(
-      `http://localhost:5000/api/courses/teatcher/${searchVal}`
+      `https://edu-alpha-neon.vercel.app/api/courses/teatcher/${searchVal}`
     );
   } else {
-    courses = await fetchCourses(`http://localhost:5000/api/courses/getAll`);
+    courses = await fetchCourses(
+      `https://edu-alpha-neon.vercel.app/api/courses/getAll`
+    );
   }
 
   courses.forEach((course) => {

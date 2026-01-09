@@ -48,7 +48,7 @@ window.addEventListener("load", async () => {
   urlBtn.setAttribute("course-id", courseId);
 
   const lesson = await fetchLesson(
-    `http://localhost:5000/api/lessons/getOne/${lessonId}`
+    `https://edu-alpha-neon.vercel.app/api/lessons/getOne/${lessonId}`
   );
 
   if (!lesson.videoUrl) {
@@ -78,7 +78,7 @@ window.addEventListener("load", async () => {
     ? lesson.videoUrl.substring(1)
     : lesson.videoUrl;
   const videoEl = document.createElement("video");
-  videoEl.src = `http://localhost:5000/${cleanPath}`;
+  videoEl.src = `https://edu-alpha-neon.vercel.app/${cleanPath}`;
   videoEl.controls = "true";
   videoEl.oncontextmenu = "return false;";
   videoEl.controlsList = "nodownload";
@@ -89,7 +89,7 @@ window.addEventListener("load", async () => {
   lessonTitle.textContent = lesson.title;
 
   const courseData = await fetchCourseData(
-    `http://localhost:5000/api/courses/getOne/${courseId}`
+    `https://edu-alpha-neon.vercel.app/api/courses/getOne/${courseId}`
   );
 
   if (!courseData.autoCover || !courseData.title) {
@@ -101,7 +101,7 @@ window.addEventListener("load", async () => {
   }
 
   const currentEnrollmentRes = await smartFetch(
-    `http://localhost:5000/api/user/getEnrollment/${courseId}`,
+    `https://edu-alpha-neon.vercel.app/api/user/getEnrollment/${courseId}`,
     {
       method: "GET",
       headers: {
@@ -168,7 +168,7 @@ window.addEventListener("click", (e) => {
 
 const updateLessonCompletaion = async (doneStatus) => {
   await smartFetch(
-    `http://localhost:5000/api/lessons/update-completion/${lessonId}`,
+    `https://edu-alpha-neon.vercel.app/api/lessons/update-completion/${lessonId}`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },

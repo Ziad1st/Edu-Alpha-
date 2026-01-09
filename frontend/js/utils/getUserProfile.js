@@ -13,7 +13,7 @@ const fetchData = async (url) => {
 };
 
 export const userProfile = await fetchData(
-  `http://localhost:5000/api/user/myProfile`,
+  `https://edu-alpha-neon.vercel.app/api/user/myProfile`,
   {
     method: "GET",
     headers: {

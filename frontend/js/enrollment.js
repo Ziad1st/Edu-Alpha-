@@ -11,7 +11,7 @@ enrollBtn.addEventListener("click", async (e) => {
     const courseId = new URLSearchParams(window.location.search).get("course");
 
     const response = await smartFetch(
-      `http://localhost:5000/api/enrollments/add`,
+      `https://edu-alpha-neon.vercel.app/api/enrollments/add`,
       {
         method: "POST",
         body: JSON.stringify({ courseId }),

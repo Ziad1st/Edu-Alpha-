@@ -41,7 +41,7 @@ window.addEventListener("load", async () => {
   const courseId = window.location.search.split("=")[1];
   if (!courseId) return;
   const courseData = await fetchData(
-    `http://localhost:5000/api/courses/getOne/${courseId}`
+    `https://edu-alpha-neon.vercel.app/api/courses/getOne/${courseId}`
   );
 
   if (!courseData.autoCover || !courseData.title) {
@@ -50,7 +50,7 @@ window.addEventListener("load", async () => {
   }
 
   const currentEnrollmentRes = await smartFetch(
-    `http://localhost:5000/api/user/getEnrollment/${courseId}`,
+    `https://edu-alpha-neon.vercel.app/api/user/getEnrollment/${courseId}`,
     {
       method: "GET",
       headers: {
@@ -114,7 +114,7 @@ async function confirmEnrollment() {
 
   try {
     const res = await smartFetch(
-      `http://localhost:5000/api/enrollments/confirm-payment`,
+      `https://edu-alpha-neon.vercel.app/api/enrollments/confirm-payment`,
       {
         method: "POST",
         headers: {
@@ -137,7 +137,7 @@ async function confirmEnrollment() {
 
 const deleteLesson = async (lessonId) => {
   const res = await smartFetch(
-    `http://localhost:5000/api/lessons/deleteOne/${lessonId}`,
+    `https://edu-alpha-neon.vercel.app/api/lessons/deleteOne/${lessonId}`,
     {
       method: "DELETE",
       headers: {
@@ -181,7 +181,7 @@ window.addEventListener("click", async (e) => {
     const enrollBtn = document.querySelector(".enroll-btn");
     if (!enrollBtn.classList.contains("free") && !isFree) {
       const courseData = await fetchData(
-        `http://localhost:5000/api/courses/getOne/${courseId}`
+        `https://edu-alpha-neon.vercel.app/api/courses/getOne/${courseId}`
       );
       const modalCourseName = courseData.title;
       const modalCoursePrice = courseData.price;

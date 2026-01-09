@@ -1,6 +1,5 @@
 import { errorMessageHandler } from "./utils/errorMessage.js";
 import { smartFetch } from "./utils/fetchWithRefToken.js"; // تأكد من المسار الصحيح
-
 // ===============================
 // 0) DOM Elements
 // ===============================
@@ -32,7 +31,7 @@ function uploadVideoBinary(file, lessonId) {
     const xhr = new XMLHttpRequest();
     xhr.open(
       "PATCH",
-      `http://localhost:5000/api/lessons/upload-video/${lessonId}`,
+      `https://edu-alpha-neon.vercel.app/api/lessons/upload-video/${lessonId}`,
       true
     );
 
@@ -93,7 +92,7 @@ addLessonForm.addEventListener("submit", async function handleSubmit(e) {
 
     // المرحلة الأولى: إنشاء الدرس باستخدام الدالة الذكية
     // smartFetch ستتولى الـ Refresh تلقائياً إذا أعاد السيرفر 401
-    let res = await smartFetch("http://localhost:5000/api/lessons", {
+    let res = await smartFetch("https://edu-alpha-neon.vercel.app/api/lessons", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

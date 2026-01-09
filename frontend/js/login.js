@@ -1,4 +1,4 @@
-const ApiUrl = `http://localhost:5000/api/auth/login`;
+const ApiUrl = `https://edu-alpha-neon.vercel.app/api/auth/login`;
 const form = document.getElementById("login-form");
 import { errorMessageHandler } from "./utils/errorMessage.js";
 

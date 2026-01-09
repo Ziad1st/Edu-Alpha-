@@ -1,4 +1,4 @@
-const ApiUrl = `http://localhost:5000/api/auth/register`; // تأكد من المسار في السيرفر
+const ApiUrl = `https://edu-alpha-neon.vercel.app/api/auth/register`; // تأكد من المسار في السيرفر
 const form = document.getElementById("register-form");
 import { errorMessageHandler } from "./utils/errorMessage.js";
 

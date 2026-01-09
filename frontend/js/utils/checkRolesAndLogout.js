@@ -177,7 +177,7 @@ setInterval(() => {
 
 const logoutFunc = async () => {
   try {
-    await smartFetch("http://localhost:5000/api/auth/logout", {
+    await smartFetch("https://edu-alpha-neon.vercel.app/api/auth/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

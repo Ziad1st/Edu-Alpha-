@@ -19,8 +19,8 @@ window.addEventListener("load", async () => {
 
   // تشغيل الطلبات بالتوازي بدلاً من الانتظار الواحدة تلو الأخرى
   const [teachers, courses] = await Promise.all([
-    fetchData("http://localhost:5000/api/teatchers"),
-    fetchData("http://localhost:5000/api/courses/getAll"),
+    fetchData("https://edu-alpha-neon.vercel.app/api/teatchers"),
+    fetchData("https://edu-alpha-neon.vercel.app/api/courses/getAll"),
   ]);
 
   // تحسين الأداء: حساب عدد الطلاب لكل مدرس مرة واحدة فقط وتخزينها في Map

@@ -15,7 +15,7 @@ const fetchCategories = async (url) => {
 window.addEventListener("load", async () => {
   /**@type {Array} */
   const categories = await fetchCategories(
-    "http://localhost:5000/api/categories/getAll"
+    "https://edu-alpha-neon.vercel.app/api/categories/getAll"
   );
 
   let domEl = ``;
