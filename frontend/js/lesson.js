@@ -1,4 +1,3 @@
-const lessonVideoBox = document.getElementById("lesson-video-box");
 const urlBtn = document.querySelector(".url-btn");
 const lessonDescription = document.getElementById("lesson-description");
 const lessonTitle = document.getElementById("lesson-title");
@@ -43,12 +42,14 @@ const fetchLesson = async (url) => {
   }
 };
 
+const cld = cloudinary.Cloudinary.new({ cloud_name: "daaxlwz06" });
+
 window.addEventListener("load", async () => {
   contentLoad("on");
   urlBtn.setAttribute("course-id", courseId);
 
   const lesson = await fetchLesson(
-    `https://edu-alpha-neon.vercel.app/api/lessons/getOne/${lessonId}`
+    `http://localhost:5000/api/lessons/getOne/${lessonId}`
   );
 
   if (!lesson.videoUrl) {
@@ -73,20 +74,32 @@ window.addEventListener("load", async () => {
       }, 3000);
     }
   }
-  
-  const videoEl = document.createElement("video");
+
+  const videoEl = document.getElementById("doc-player");
   videoEl.src = lesson.videoUrl;
   videoEl.controls = "true";
-  videoEl.oncontextmenu = "return false;";
-  videoEl.controlsList = "nodownload";
 
-  lessonVideoBox.innerHTML = "";
-  lessonVideoBox.appendChild(videoEl);
   lessonDescription.textContent = lesson.description;
   lessonTitle.textContent = lesson.title;
 
+  const player = cld.videoPlayer("doc-player", {
+    colors: {
+      base: "#0f172a",
+      accent: "#ffffff",
+    },
+    fluid: true,
+    controls: true,
+    analytics: false, // لزيادة السرعة
+    showLogo: true, // لإخفاء شعار كلاوديناري
+    controlsList: "nodownload", // منع التحميل
+  });
+
+  player.source(lesson.videoUrl);
+
+  videoEl.addEventListener("contextmenu", (e) => e.preventDefault());
+
   const courseData = await fetchCourseData(
-    `https://edu-alpha-neon.vercel.app/api/courses/getOne/${courseId}`
+    `http://localhost:5000/api/courses/getOne/${courseId}`
   );
 
   if (!courseData.autoCover || !courseData.title) {
@@ -98,7 +111,7 @@ window.addEventListener("load", async () => {
   }
 
   const currentEnrollmentRes = await smartFetch(
-    `https://edu-alpha-neon.vercel.app/api/user/getEnrollment/${courseId}`,
+    `http://localhost:5000/api/user/getEnrollment/${courseId}`,
     {
       method: "GET",
       headers: {
@@ -165,7 +178,7 @@ window.addEventListener("click", (e) => {
 
 const updateLessonCompletaion = async (doneStatus) => {
   await smartFetch(
-    `https://edu-alpha-neon.vercel.app/api/lessons/update-completion/${lessonId}`,
+    `http://localhost:5000/api/lessons/update-completion/${lessonId}`,
     {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -180,4 +193,3 @@ lessonDone.addEventListener("change", (e) => {
     .querySelector("li.lesson-li.active")
     .classList.toggle("done", e.target.checked);
 });
-
