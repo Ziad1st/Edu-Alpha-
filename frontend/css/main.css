@@ -630,22 +630,27 @@ RESPONSIVE (مهم)
 .course-video {
   grid-area: video;
 }
-
 .video-box {
   background: #000;
-  color: white;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  /* حذفنا الـ height الثابت لنترك للمشغل التحكم بالتناسب 16:9 */
+  aspect-ratio: 16 / 9;
   border-radius: var(--radius);
   overflow: hidden;
+  position: relative;
+}
+
+/* هذا الكود يضمن أن المشغل يملأ الحاوية تماماً */
+.cld-video-player {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .video-box video {
+  height: fit-content;
   width: auto;
-  height: 100%;
-  object-fit: contain;
+  max-width: auto;
+  object-fit: cover;
   pointer-events: all;
 }
 
@@ -1745,7 +1750,7 @@ h2#course-title {
 /* 1. الشاشات المتوسطة (Tablets & Small Laptops) - أقل من 1024px */
 
 @media (max-width: 1350px) {
-  .course-layout {
+  .course-layout:not(.lesson-page) {
     grid-template-columns: 1fr; /* تحويل العرض الجانبي إلى عمودي */
     grid-template-areas:
       "header"
@@ -1755,6 +1760,9 @@ h2#course-title {
     padding: 10px;
   }
 }
+
+/* الشاشات التي يقل عرضها عن 992 بكسل (تابلت وموبايل) */
+
 @media (max-width: 1024px) {
   /* تعديل صفحة الكورس والدرس */
   .course-layout {
@@ -1777,7 +1785,6 @@ h2#course-title {
   /* تعديل الصفحة الرئيسية (السايدبار والـ index) */
   body {
     grid-template-columns: 1fr;
-    grid-template-rows: auto;
     grid-template-areas:
       "header"
       "main"
@@ -1793,6 +1800,33 @@ h2#course-title {
 @media (max-width: 992px) {
   .course-card {
     flex-direction: column;
+  }
+  .course-layout {
+    grid-template-areas:
+      "header"
+      "video"
+      "lessons"
+      "content";
+    grid-template-columns: 1fr; /* عمود واحد فقط */
+    grid-template-rows: auto auto auto auto;
+    padding: 10px;
+    gap: 15px;
+  }
+
+  .video-box {
+    aspect-ratio: 16 / 9; /* الحفاظ على أبعاد الفيديو السينمائية */
+    height: auto;
+  }
+
+  .course-lessons {
+    max-height: none; /* السماح للقائمة بالتمدد */
+    height: auto;
+  }
+
+  ol.lessons-list {
+    height: auto;
+    max-height: 300px; /* تحديد ارتفاع القائمة الجانبية لتوفير مساحة */
+    overflow-y: auto;
   }
 
   .course-card .image {
@@ -1883,6 +1917,17 @@ h2#course-title {
   .modal-content {
     width: 95%;
     padding: 15px;
+  }
+
+  #lesson-title {
+    font-size: 1.2rem;
+  }
+
+  .custom-checkbox {
+    padding: 8px 15px;
+    font-size: 16px;
+    bottom: 10px;
+    right: 5px;
   }
 }
 
