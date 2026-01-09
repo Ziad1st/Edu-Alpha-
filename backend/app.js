@@ -10,8 +10,8 @@ const corsOptions = {
     const allowedOrigins = [
       "http://127.0.0.1:5500",
       "http://localhost:5500",
-      "https://edu-alpha-frontend.vercel.app/pages/", // ضع رابط الـ Frontend الخاص بك هنا بعد الرفع
-      "https://edu-alpha-frontend.vercel.app", // ضع رابط الـ Frontend الخاص بك هنا بعد الرفع
+      "https://edu-alpha-frontend.vercel.app/pages", // ضع رابط الـ Frontend الخاص بك هنا بعد الرفع
+      "https://edu-alpha-frontend.vercel.app",
     ];
 
     // السماح بالطلبات التي ليس لها origin (مثل تطبيقات الموبايل أو Postman)
