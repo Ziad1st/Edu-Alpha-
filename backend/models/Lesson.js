@@ -10,8 +10,8 @@ const LessonSchema = new mongoose.Schema(
       type: String,
     },
     videoUrl: {
-      type: String, // سيخزن مسار الملف المرفوع على السيرفر
-      default: "",
+      type: String, // الرابط القادم من Cloudinary هو نص
+      required: true,
     },
     courseId: {
       type: mongoose.Schema.Types.ObjectId,
