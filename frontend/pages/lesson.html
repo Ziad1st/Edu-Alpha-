@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>تفاصيل الكورس</title>
     <link rel="stylesheet" href="../css/main.css" />
+    <link
+      href="https://unpkg.com/cloudinary-video-player@1.10.6/dist/cld-video-player.min.css"
+      rel="stylesheet"
+    />
 
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
   </head>
-  <body class="course-layout">
+  <body class="course-layout lesson-page">
     <header class="course-header">
       <div class="title-right">
         <h2 id="lesson-title">عنوان الدرس</h2>
@@ -124,7 +128,14 @@
     </header>
 
     <section class="course-video">
-      <div id="lesson-video-box" class="video-box">مكان الفيديو</div>
+      <div class="video-box">
+        <video
+          aria-placeholder="مكان الفيديو"
+          id="doc-player"
+          controls
+          class="cld-video-player cld-fluid"
+        ></video>
+      </div>
     </section>
 
     <aside class="course-lessons">
@@ -171,4 +182,8 @@
   <script type="module" src="../js/utils/authGuard.js"></script>
   <script type="module" src="../js/utils/checkRolesAndLogout.js"></script>
   <script type="module" src="../js/lesson.js"></script>
+  <script
+    src="https://unpkg.com/cloudinary-video-player@1.10.6/dist/cld-video-player.min.js"
+    type="text/javascript"
+  ></script>
 </html>
