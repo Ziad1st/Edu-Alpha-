@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { upload } = require("../middlewares/upload");
 const {
   createLesson,
-  uploadLessonVideo,
   updateLessonCompletion, // الدالة الجديدة التي سنضيفها للـ Controller
   getLesson,
   deleteLesson,
@@ -20,19 +18,11 @@ router.post("/", authMiddleware, verifyRoles("teatcher admin"), createLesson);
 
 // 2) مسار رفع الفيديو (Multipart/FormData)
 // نستخدم PATCH لأننا نحدث سجل الدرس الذي تم إنشاؤه بالفعل بملف الفيديو
-router.patch(
-  "/upload-video/:lessonId",
+router.post(
+  "/",
   authMiddleware,
   verifyRoles("teatcher admin"),
-  (req, res, next) => {
-    upload.single("video")(req, res, function (err) {
-      if (err) {
-        return res.status(400).json({ message: err.message });
-      }
-      next();
-    });
-  },
-  uploadLessonVideo // الدالة المسؤولة عن حفظ المسار في قاعدة البيانات
+  createLesson // الدالة التي ستحفظ البيانات في MongoDB
 );
 
 router.patch(
