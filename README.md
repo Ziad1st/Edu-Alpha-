@@ -4,7 +4,7 @@
 
 ---
 (LIVE LINK) - see the website here
-https://edu-alpha-frontend.vercel.app/pages/index.html
+https://edu-alpha-frontend.vercel.app/pages/courses.html
 
 ## ✨ الميزات الرئيسية (Features)
 
