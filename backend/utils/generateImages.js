@@ -1,6 +1,6 @@
 const { createCanvas, registerFont } = require("canvas");
 const path = require("path");
-registerFont(path.join(__dirname, "fonts", "Cairo-Bold.ttf"), {
+registerFont(path.join(__dirname, ".." ,"fonts", "Cairo-Bold.ttf"), {
   family: "Cairo",
 });
 const generateCategoryCover = (categoryName) => {
