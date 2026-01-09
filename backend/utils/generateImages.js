@@ -83,7 +83,7 @@ const generateCategoryCover = (categoryName) => {
   ctx.textBaseline = "middle";
 
   // استخدام خط عريض جداً ونظيف
-  ctx.font = "bold 60px Cairo";
+  ctx.font = "bold 50px Cairo";
 
   const maxWidth = width * 0.75;
   const words = categoryName.split(" ");
