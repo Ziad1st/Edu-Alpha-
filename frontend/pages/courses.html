@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>الكورسات</title>
+    <link rel="stylesheet" href="../css/main.css" />
+  </head>
+  <body class="courses-page">
+    <header>
+      <div class="logo"><a href="./index.html">Edu&lt;=&gt;Alpha</a></div>
+
+      <nav class="nav">
+        <a href="index.html">الرئيسية</a>
+        <a class="active" href="courses.html">الكورسات</a>
+        <a href="myCourses.html">كورساتي</a>
+        <a href="create-course.html">إنشاء كورس</a>
+        <a href="teatchers.html">المعلمون</a>
+        <a href="login.html">تسجيل الدخول</a>
+      </nav>
+    </header>
+
+    <main class="courses-container"></main>
+
+    <style>
+      body {
+        grid-template-areas:
+          "header header"
+          "main main"
+          "footer footer";
+      }
+    </style>
+
+    <script type="module" src="../js/utils/checkRolesAndLogout.js"></script>
+    <script type="module" src="../js/courses.js"></script>
+    <footer>© 2025 منصة تعليمية – Full Stack</footer>
+  </body>
+</html>

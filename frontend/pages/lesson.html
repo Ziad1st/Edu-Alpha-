@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تفاصيل الكورس</title>
+    <link rel="stylesheet" href="../css/main.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="course-layout">
+    <header class="course-header">
+      <div class="title-right">
+        <h2 id="lesson-title">عنوان الدرس</h2>
+        <div class="lesson-completion-wrapper">
+          <label class="custom-checkbox">
+            <input type="checkbox" name="lesson-done" id="lesson-done" />
+            <span class="checkmark"></span>
+            <span class="label-text">أنهيت الدرس</span>
+          </label>
+        </div>
+      </div>
+      <div class="logo"><a href="./index.html">Edu&lt;=&gt;Alpha</a></div>
+
+      <style>
+        /* تنسيق الحاوية اليمين */
+        .title-right {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        #lesson-title {
+          font-size: 1.5rem;
+          margin: 0;
+          color: #fff;
+        }
+
+        .custom-checkbox {
+          display: inline-flex;
+          align-items: center;
+          cursor: pointer;
+          font-family: inherit;
+          border-radius: 50px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: fixed;
+          bottom: 15px;
+          right: 10px;
+          background-color: #0f172a89;
+          opacity: 1;
+          z-index: 400;
+          padding: 12px 20px;
+          font-size: 20px;
+          box-shadow: 0 0 10px #0f172a4a;
+          scale: 0.9;
+        }
+
+        /* إخفاء الإدخال الأصلي */
+        .custom-checkbox input {
+          display: none;
+        }
+
+        /* تصميم المربع/الدائرة التفاعلية */
+        .checkmark {
+          width: 18px;
+          height: 18px;
+          border: 2px solid #3b82f6; /* لون أزرق مطابق لمشروعك */
+          border-radius: 50%; /* شكل دائري كما في الصورة الثانية */
+          margin-left: 10px;
+          position: relative;
+          transition: all 0.3s ease;
+          background: transparent;
+        }
+
+        /* النص الجانبي */
+        .label-text {
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 0.9rem;
+          font-weight: 500;
+          transition: color 0.3s ease;
+        }
+
+        /* الحالة عند التفعيل (Checked) */
+        .custom-checkbox input:checked + .checkmark {
+          background-color: #3b82f6;
+          border-color: #3b82f6;
+          transform: scale(1.1);
+        }
+
+        /* علامة الصح البيضاء */
+        .custom-checkbox input:checked + .checkmark::after {
+          content: "";
+          position: absolute;
+          left: 5px;
+          top: 1.5px;
+          width: 5px;
+          height: 10px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+        }
+
+        /* تغيير لون النص والخلفية عند التفعيل */
+        .custom-checkbox:has(input:checked) {
+          background-color: #3b82f6;
+          border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .custom-checkbox input:checked ~ .label-text {
+          color: #fff;
+        }
+
+        /* تأثير عند التمرير (Hover) */
+        .custom-checkbox:hover {
+          background: #0f172a;
+          transform: translateY(-5px);
+          scale: 1;
+        }
+      </style>
+    </header>
+
+    <section class="course-video">
+      <div id="lesson-video-box" class="video-box">مكان الفيديو</div>
+    </section>
+
+    <aside class="course-lessons">
+      <h3 class="primary">دروس الكورس <span id="lessons-count">(0)</span></h3>
+      <div class="actions-btns">
+        <button class="url-btn">العوده لصفحة الكورس</button>
+      </div>
+      <ol id="lessons-list" class="lessons-list"></ol>
+      <div class="scroll-indicator">
+        <span>SCROLL</span>
+        <i class="fa-solid fa-angles-down"></i>
+      </div>
+    </aside>
+
+    <section class="lesson-content">
+      <h3 class="primary">وصف الدرس</h3>
+      <p>
+        <span id="lesson-description" class="txt"> </span>
+      </p>
+    </section>
+  </body>
+  <script>
+    const indicator = document.querySelector(".scroll-indicator");
+    const lessonsList = document.querySelector(".lessons-list");
+
+    function checkScroll() {
+      if (lessonsList.scrollHeight > lessonsList.clientHeight) {
+        indicator.style.display = "flex";
+      } else {
+        indicator.style.display = "none";
+      }
+    }
+
+    window.addEventListener("resize", () => {
+      checkScroll();
+    });
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        checkScroll();
+      }, 1000);
+    });
+  </script>
+  <script type="module" src="../js/utils/authGuard.js"></script>
+  <script type="module" src="../js/utils/checkRolesAndLogout.js"></script>
+  <script type="module" src="../js/lesson.js"></script>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>إنشاء كورس جديد</title>
+    <link rel="stylesheet" href="../css/main.css" />
+  </head>
+  <body class="create-course-page">
+    <header>
+      <div class="logo"><a href="./index.html">Edu&lt;=&gt;Alpha</a></div>
+      <nav class="nav">
+        <nav class="nav">
+          <a href="index.html">الرئيسية</a>
+          <a href="courses.html">الكورسات</a>
+          <a href="myCourses.html">كورساتي</a>
+          <a class="active" href="create-course.html">إنشاء كورس</a>
+          <a href="teatchers.html">المعلمون</a>
+          <a href="login.html">تسجيل الدخول</a>
+        </nav>
+      </nav>
+    </header>
+
+    <main class="create-course-container">
+      <form class="course-form" id="course-form" method="post">
+        <div class="form-group">
+          <label for="title">عنوان الكورس</label>
+          <input
+            name="title"
+            id="title"
+            required
+            type="text"
+            placeholder="مثال: HTML Basics"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="description">وصف الكورس</label>
+          <textarea
+            name="description"
+            id="description"
+            required
+            rows="4"
+            placeholder="وصف مختصر للكورس"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label
+            for="cover"
+            class="optional-label"
+            data-hint="إختياري, ويتم إنشاء غلاف منسق بناءا على إسم الكورس بشكل تلقائي في حالة عدم التحديد &#10; تنبيه : عنوان الغلاف لازم يكون url من الإنترنت ليس من الجهاز الخاص بك"
+            >رابط صورة الغلاف</label
+          >
+          <input
+            name="cover"
+            id="cover"
+            type="text"
+            placeholder="https://image-url.com/cover.jpg"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="price">السعر</label>
+          <input
+            name="price"
+            id="price"
+            required
+            type="number"
+            placeholder="السعر بالجنيه"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="category">التصنيف</label>
+          <select name="category" id="category">
+            <option value="">Frontend</option>
+            <option>Backend</option>
+            <option>Full Stack</option>
+            <option>Programming Basics</option>
+          </select>
+        </div>
+
+        <button type="submit">إنشاء الكورس</button>
+      </form>
+    </main>
+    <style>
+      body {
+        grid-template-areas:
+          "header header"
+          "main main"
+          "footer footer";
+      }
+    </style>
+
+    <script type="module" src="../js/utils/authGuard.js"></script>
+    <script type="module" src="../js/utils/checkRolesAndLogout.js"></script>
+    <script type="module" src="../js/createCourse.js"></script>
+  </body>
+</html>

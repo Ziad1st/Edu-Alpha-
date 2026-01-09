@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>كورساتي</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="my-courses-page">
+    <header>
+      <div class="logo"><a href="./index.html">Edu&lt;=&gt;Alpha</a></div>
+
+      <nav class="nav">
+        <a href="index.html">الرئيسية</a>
+        <a href="courses.html">الكورسات</a>
+        <a class="active" href="myCourses.html">كورساتي</a>
+        <a href="create-course.html">إنشاء كورس</a>
+        <a href="teatchers.html">المعلمون</a>
+        <a href="login.html">تسجيل الدخول</a>
+      </nav>
+    </header>
+
+    <main class="my-courses-layout">
+      <!-- الملخص العام -->
+      <section class="progress-summary">
+        <h3>مستواك العام</h3>
+
+        <div class="level-box">
+          <span class="level">---</span>
+
+          <div class="stars">★★★☆☆</div>
+
+          <p>
+            مبني على تقدمك في جميع الكورسات
+            <small style="font-size: 12px; display: block; margin-top: 20px">
+              <span
+                style="
+                  padding: 5px 10px;
+                  font-weight: 500;
+                  color: var(--primary);
+                  border: 1px dashed var(--primary);
+                  border-radius: 10px;
+                "
+              >
+                (متفوق - جيد جداً - جيد - مقبول - مبتدئ)
+              </span>
+            </small>
+          </p>
+        </div>
+      </section>
+
+      <!-- الكورسات -->
+      <section class="my-courses">
+        <!-- الكورس -->
+
+        <!-- الكورس -->
+      </section>
+    </main>
+
+    <style>
+      body {
+        grid-template-areas:
+          "header header"
+          "main main"
+          "footer footer";
+      }
+    </style>
+    <script type="module" src="../js/myCourses.js"></script>
+    <script type="module" src="../js/utils/checkRolesAndLogout.js"></script>
+  </body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>انضم كمعلم</title>
+    <!-- <link rel="stylesheet" href="../css/main.css" /> -->
+    <style>
+      /* تنسيقات إضافية لتحسين شكل صفحة التسجيل */
+      body.register-page {
+        background-color: #f0f4f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 25px 10px;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .register-container {
+        background: #ffffff;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+      }
+
+      .register-container h2 {
+        text-align: center;
+        color: #1e3a8a;
+        margin-bottom: 30px;
+        font-size: 1.8rem;
+      }
+
+      #register-form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #register-form label {
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #4b5563;
+      }
+
+      #register-form input,
+      #register-form textarea {
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      #register-form input:focus,
+      #register-form textarea:focus {
+        outline: none;
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      #register-form textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      #register-form button {
+        background-color: #2563eb;
+        color: white;
+        padding: 14px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      #register-form button:hover {
+        background-color: #1d4ed8;
+      }
+
+      .register-container p {
+        text-align: center;
+        margin-top: 20px;
+        color: #6b7280;
+      }
+
+      .register-container p a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body class="register-page">
+    <main class="register-container">
+      <h2>انضم إلينا كمعلم 👨‍🏫</h2>
+      <form id="register-form">
+        <label for="name">الاسم الكامل</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="أدخل اسمك المعتمد"
+          required
+        />
+
+        <label for="email">البريد الإلكتروني</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="example@mail.com"
+          required
+        />
+
+        <label for="specialization">التخصص</label>
+        <input
+          type="text"
+          id="specialization"
+          name="specialization"
+          placeholder="مثلاً: برمجة التطبيقات، اللغة العربية"
+          required
+        />
+
+        <label for="experience">نبذة عن الخبرة</label>
+        <textarea
+          id="experience"
+          name="experience"
+          placeholder="تحدث بإيجاز عن سنوات خبرتك وأهم مهاراتك..."
+          required
+        ></textarea>
+
+        <label for="password">كلمة المرور</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="••••••••"
+          required
+        />
+
+        <label for="confirm-password">تأكيد كلمة المرور</label>
+        <input
+          type="password"
+          id="confirm-password"
+          name="confirm-password"
+          placeholder="••••••••"
+          required
+        />
+
+        <button type="submit">إرسال طلب الانضمام</button>
+
+        <p>لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a></p>
+      </form>
+    </main>
+
+    <script type="module" src="../js/utils/checkRoles.js"></script>
+    <script type="module" src="../js/register-teacher.js"></script>
+  </body>
+</html>

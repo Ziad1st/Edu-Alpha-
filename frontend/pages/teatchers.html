@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>صفحة المعلمين</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <style>
+      /* التنسيقات الخاصة بـ Layout الصفحة */
+      body {
+        grid-template-areas:
+          "header header"
+          "main main"
+          "footer footer";
+      }
+    </style>
+  </head>
+  <body class="teachers-page">
+    <header>
+      <div class="logo"><a href="./index.html">Edu&lt;=&gt;Alpha</a></div>
+
+      <nav class="nav">
+        <a href="index.html">الرئيسية</a>
+        <a href="courses.html">الكورسات</a>
+        <a href="myCourses.html">كورساتي</a>
+        <a href="create-course.html">إنشاء كورس</a>
+        <a class="active" href="teatchers.html">المعلمون</a>
+        <a href="login.html">تسجيل الدخول</a>
+      </nav>
+    </header>
+
+    <main class="teachers-container">
+      <h2>المعلمون</h2>
+      <div
+        style="
+          position: fixed;
+          width: min-content;
+          min-width: 100px;
+          left: 15px;
+          bottom: 15px;
+        "
+      >
+        <button
+          style="
+            background: var(--secondary);
+            font-size: 12px;
+            border-radius: 20px;
+          "
+          type="submit"
+          class="submit-btn"
+        >
+          إنضم إلينا كمعلم
+        </button>
+      </div>
+      <div id="teachers-container" class="teachers-grid">
+        <div class="teacher-card">
+          <div class="image">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXxls9u_fRkoQHQVhVid9MGdPPi7_V5uYzHA&s"
+              alt="Teacher 3"
+            />
+          </div>
+          <h4>أ. محمد</h4>
+          <p class="specialize-in">مختص بـ Node.js</p>
+          <p class="students">يدرس معه <span class="number">200</span> طالب</p>
+          <p class="rates">
+            <span class="stars">★★★☆☆</span>
+            <span class="state-rate">محترف</span>
+          </p>
+          <button class="join-to-courses primary-btn">إنضم للكورسات</button>
+        </div>
+      </div>
+    </main>
+
+    <footer>© 2025 منصة تعليمية Full Stack</footer>
+
+    <script type="module" src="../js/utils/checkRolesAndLogout.js"></script>
+    <script type="module" src="../js/teatchers.js"></script>
+  </body>
+</html>

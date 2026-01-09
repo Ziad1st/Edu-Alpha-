@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تفاصيل الكورس</title>
+    <link rel="stylesheet" href="../css/main.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="course-layout">
+    <header class="course-header">
+      <h2 id="course-title" style="line-height: 40px">CSS Grid Layout</h2>
+      <div class="logo"><a href="./index.html">Edu&lt;=&gt;Alpha</a></div>
+    </header>
+
+    <section class="course-video">
+      <div id="lesson-video-box" class="video-box">مكان الفيديو</div>
+    </section>
+
+    <aside class="course-lessons">
+      <h3 class="primary">دروس الكورس <span id="lessons-count">(0)</span></h3>
+      <div class="actions-btns">
+        <button class="enroll-btn">إشترك</button>
+        <button class="add-lesson-btn">درس جديد</button>
+      </div>
+      <ol id="lessons-list" class="lessons-list"></ol>
+      <div class="scroll-indicator">
+        <span>SCROLL</span>
+        <i class="fa-solid fa-angles-down"></i>
+      </div>
+    </aside>
+
+    <section class="course-content">
+      <h3 class="primary">وصف الكورس</h3>
+      <p>
+        <span id="course-description" class="txt"> </span>
+      </p>
+    </section>
+
+
+    <!-- Paymenent Section -->
+    <div
+      id="paymentModal"
+      style="
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        font-family: sans-serif;
+      "
+    >
+      <div
+        style="
+          background: white;
+          border-radius: 15px;
+          width: 100%;
+          max-width: 400px;
+          overflow: hidden;
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+          direction: rtl;
+        "
+      >
+        <div
+          style="
+            background: #1d4ed8;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3 style="margin: 0; font-size: 18px">تأكيد الاشتراك</h3>
+          <button
+            id="close-pop"
+            style="
+              background: none;
+              border: none;
+              color: white;
+              font-size: 24px;
+              cursor: pointer;
+            "
+          >
+            &times;
+          </button>
+        </div>
+
+        <div style="padding: 20px">
+          <p style="color: #666; font-size: 14px; margin-bottom: 5px">
+            أنت على وشك الانضمام لـ:
+          </p>
+          <h4
+            id="modalCourseName"
+            style="color: #1e1b4b; font-size: 20px; margin: 0 0 20px 0"
+          >
+            اسم الكورس المختار
+          </h4>
+
+          <div
+            style="
+              background: #f8fafc;
+              padding: 15px;
+              border-radius: 10px;
+              border-right: 5px solid #1d4ed8;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 20px;
+            "
+          >
+            <span style="color: #444">تكلفة الاشتراك:</span>
+            <span
+              id="modalCoursePrice"
+              style="color: #1d4ed8; font-weight: bold; font-size: 18px"
+              >0.00 ج.م</span
+            >
+          </div>
+
+          <input
+            type="text"
+            placeholder="رقم بطاقة وهمي (4242...)"
+            style="
+              width: 100%;
+              padding: 12px;
+              margin-bottom: 10px;
+              border: 1px solid #ddd;
+              border-radius: 8px;
+              box-sizing: border-box;
+            "
+          />
+
+          <div style="display: flex; gap: 10px; margin-bottom: 20px">
+            <input
+              type="text"
+              placeholder="YY/MM"
+              style="
+                width: 50%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-sizing: border-box;
+              "
+            />
+            <input
+              type="text"
+              placeholder="CVC"
+              style="
+                width: 50%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-sizing: border-box;
+              "
+            />
+          </div>
+
+          <button
+            class="enroll-confirm-btn"
+            style="
+              width: 100%;
+              background: #1d4ed8;
+              color: white;
+              border: none;
+              padding: 15px;
+              border-radius: 10px;
+              font-weight: bold;
+              font-size: 16px;
+              cursor: pointer;
+              transition: 0.3s;
+            "
+          >
+            تأكيد الدفع والاشتراك
+          </button>
+
+          <p
+            style="
+              text-align: center;
+              color: #999;
+              font-size: 10px;
+              margin-top: 15px;
+            "
+          >
+            بوابة دفع تجريبية لنظام Edu Alpha التعليمي
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const indicator = document.querySelector(".scroll-indicator");
+    const lessonsList = document.querySelector(".lessons-list");
+
+    function checkScroll() {
+      if (lessonsList.scrollHeight > lessonsList.clientHeight) {
+        indicator.style.display = "flex";
+      } else {
+        indicator.style.display = "none";
+      }
+    }
+
+    window.addEventListener("resize", () => {
+      checkScroll();
+    });
+
+    window.addEventListener("load", () => {
+      setTimeout(() => {
+        checkScroll();
+      }, 1000);
+    });
+  </script>
+  <script type="module" src="../js/enrollment.js"></script>
+  <script type="module" src="../js/utils/checkRolesAndLogout.js"></script>
+  <script type="module" src="../js/courseDetails.js"></script>
+</html>

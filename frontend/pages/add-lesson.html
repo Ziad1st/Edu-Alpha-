@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>إضافة درس جديد - Edu Alpha</title>
+    <link rel="stylesheet" href="../css/main.css" />
+  </head>
+  <body class="add-lesson-page">
+    <header>
+      <div class="logo"><a href="./index.html">Edu&lt;=&gt;Alpha</a></div>
+
+      <nav class="nav">
+        <a href="index.html">الرئيسية</a>
+        <a class="active" href="courses.html">الكورسات</a>
+        <a href="myCourses.html">كورساتي</a>
+        <a href="create-course.html">إنشاء كورس</a>
+        <a href="teatchers.html">المعلمون</a>
+        <a href="login.html">تسجيل الدخول</a>
+      </nav>
+    </header>
+    <div class="lesson-form-container">
+      <div class="lesson-card">
+        <h2 class="form-title">إضافة درس جديد</h2>
+        <p class="form-subtitle">قم بملء البيانات لرفع محتوى تعليمي جديد</p>
+
+        <form id="addLessonForm" action="#">
+          <div class="input-group">
+            <label for="title">عنوان الدرس</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="مثال: مقدمة في لغة JavaScript"
+              required
+            />
+          </div>
+
+          <div class="input-group">
+            <label for="description">وصف مختصر للدرس</label>
+            <textarea
+              id="description"
+              name="description"
+              rows="3"
+              placeholder="اكتب ماذا سيتعلم الطالب في هذا الدرس..."
+            ></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="input-group flex-1">
+              <label for="order">ترتيب الدرس</label>
+              <input
+                type="number"
+                id="order"
+                name="order"
+                placeholder="رقم (1, 2...)"
+                required
+              />
+            </div>
+
+            <div class="input-group flex-1 checkbox-group">
+              <label
+                class="optional-label"
+                data-hint="إذا تم تفعيله، سيتمكن الطلاب&#10;من مشاهدة الدرس بدون شراء الكورس."
+              >
+                درس مجاني (معاينة)
+              </label>
+              <input type="checkbox" id="isFree" name="isFree" />
+            </div>
+          </div>
+
+          <div class="input-group video-upload-box">
+            <label for="video">ملف الفيديو</label>
+            <div class="file-drop-area">
+              <span class="fake-btn">اختر فيديو</span>
+              <span class="file-msg">أو اسحب الملف هنا</span>
+              <input
+                class="file-input"
+                type="file"
+                id="video"
+                name="video"
+                accept="video/*"
+                required
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">رفع الدرس الآن</button>
+        </form>
+        <div class="progress-container">
+          <div class="progress-bar"></div>
+        </div>
+      </div>
+    </div>
+    <div class="load"></div>
+
+    <script type="module" src="../js/utils/authGuard.js"></script>
+    <script type="module" src="../js/utils/checkRolesAndLogout.js"></script>
+    <script type="module" src="../js/addLesson.js"></script>
+  </body>
+</html>

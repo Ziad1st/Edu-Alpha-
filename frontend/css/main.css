@@ -1,0 +1,1912 @@
+/* =============================
+FONTS الخطوط
+============================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+:root {
+  --secondary: #0f172a; /* كحلي غامق */
+  --primary: #2563eb; /* أزرق هادئ */
+  --danger: #eb2525; /* أزرق هادئ */
+  --accent: #22c55e; /* أخضر للـ CTA */
+  --bg: #f8fafc; /* خلفية فاتحة */
+  --card: #ffffff; /* كروت */
+  --card-gray: rgba(0, 3, 86, 0.039); /* كروت */
+  --text: #0f172a; /* نص */
+  --muted: #64748b; /* نص ثانوي */
+  --radius: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+/* تنسيق أساسي لضمان ظهور الـ Popup في المنتصف */
+#paymentModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* خلفية معتمة */
+  display: none; /* مخفي افتراضياً */
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* للتأكد أنه فوق كل شيء */
+  backdrop-filter: blur(1.5px); /* إضافة تأثير ضبابي للخلفية - اختياري */
+}
+
+.hidden {
+  display: none !important;
+}
+
+.optional-label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* مسافة بين النص والأيقونة */
+  cursor: help;
+  font-family: sans-serif;
+  color: #334155;
+  font-weight: 600;
+}
+/* إنشاء الدائرة الصغيرة وبداخلها حرف i */
+.optional-label::after {
+  content: "i";
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #94a3b8; /* لون رمادي هادئ */
+  color: #94a3b8;
+  border-radius: 50%;
+  font-size: 11px;
+  font-family: serif; /* ليعطي شكل i احترافي */
+  font-style: italic;
+  transition: all 0.2s ease;
+}
+
+/* تأثير الـ Hover على الأيقونة */
+.optional-label:hover::after {
+  background-color: #94a3b8;
+  color: white;
+}
+
+/* إنشاء مربع الـ Hint (الـ Tooltip) */
+.optional-label::before {
+  content: attr(data-hint); /* جلب النص من HTML */
+  position: absolute;
+  white-space: pre-wrap;
+  bottom: calc(100% + 10px); /* يظهر فوق الـ Label */
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  width: 250px;
+  padding: 10px 14px;
+  background-color: #1e293b; /* لون داكن احترافي */
+  color: #ffffff;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  z-index: 100;
+
+  /* إخفاء في البداية */
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+/* إظهار الـ Hint عند الـ Hover */
+.optional-label:hover::before {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+#errorMsg {
+  color: var(--danger);
+  position: fixed;
+  bottom: 50px;
+  right: -100px;
+  background-color: var(--bg);
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.182);
+  padding: 10px 20px;
+  border-radius: 5px 0px 0px 5px;
+  transition: all ease-out 0.1s;
+  opacity: 0;
+  /* border-bottom: 3px solid var(--danger); */
+  border-right: 3px solid var(--danger);
+  font-weight: 500;
+  scale: 0.7;
+  text-align: right;
+}
+#errorMsg:hover,
+#errorMsg.errored:hover {
+  opacity: 1;
+  bottom: 60px;
+  right: 50px;
+  scale: 1.1;
+  cursor: pointer;
+  /* background-color: #eee; */
+}
+
+#errorMsg.errored {
+  opacity: 1;
+  scale: 1;
+  right: 50px;
+  bottom: 50px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: grid;
+
+  position: relative;
+  /* =============================
+GRID TEMPLATE (المفتاح)
+============================= */
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: 60px 1fr 60px;
+}
+
+.no-content {
+  color: var(--danger);
+  background-color: #eb25253d;
+  text-align: center;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.primary-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px transparent solid;
+  font-size: 14px;
+  transition: all 0.1s ease-in-out;
+  width: 100%;
+}
+
+button.primary-btn:active {
+  scale: 0.982;
+}
+button.primary-btn:hover {
+  color: var(--primary);
+  background-color: white;
+  border: 1px var(--primary) solid;
+}
+
+/* =============================
+LAYOUT AREAS
+============================= */
+header {
+  grid-area: header;
+  background: var(--secondary);
+  color: white;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tooltip-text {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  color: #2563eb; /* أزرق متناسق مع موقعك */
+  font-weight: bold;
+}
+.tooltip-text {
+  position: relative;
+  cursor: help; /* تغيير شكل الماوس ليدل على وجود معلومة */
+  display: inline-block;
+  border-bottom: 1px dashed #64748b; /* خط منقط خفيف تحت الكلمة */
+}
+
+/* المربع الأبيض الاحترافي */
+.tooltip-text::after {
+  content: attr(data-hover);
+  position: absolute;
+  /* التموضع: فوق الكلمة في المنتصف */
+  bottom: calc(100% + 15px);
+  left: 50%;
+  width: 280px;
+  background: #ffffff;
+  color: #1e293b;
+  padding: 13px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1.65;
+  text-align: right; /* بما أن الموقع عربي */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f1f5f9;
+
+  /* الأنيميشن الاحترافي */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(10px); /* يبدأ من تحت شوية */
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none; /* عشان ميفصلش لو الماوس لمس المربع نفسه بالخطأ */
+  z-index: 100;
+}
+
+/* السهم الصغير */
+.tooltip-text::before {
+  content: "";
+  position: absolute;
+  bottom: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #ffffff transparent transparent transparent;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 101;
+}
+
+/* تأثير الـ Hover */
+.tooltip-text:hover::after,
+.tooltip-text:hover::before {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0); /* يرتفع لمكانه الأصلي بنعومة */
+}
+
+aside {
+  grid-area: sidebar;
+  background: var(--card);
+  padding: 24px;
+  border-left: 1px solid #e5e7eb;
+}
+
+main {
+  grid-area: main;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.index #courses-categories-container {
+  grid-area: main;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+h2.header {
+  margin: 20px 0;
+  padding: 20px;
+  padding-top: 0;
+  color: var(--secondary);
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  width: fit-content;
+  background-color: var(--bg);
+  cursor: default;
+}
+
+h2.header::after {
+  content: "";
+  height: 4px;
+  width: 70%;
+  background-color: var(--primary);
+  position: absolute;
+  right: 15px;
+  border-radius: 10px;
+  margin: 0 auto;
+  bottom: 2px;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+}
+
+h2.header::before {
+  content: "";
+  position: absolute;
+  left: -20px;
+  top: 40%;
+  width: 13px;
+  height: 13px;
+  /* رسم ضلعين فقط من المربع */
+  border-left: 4px solid #2563eb;
+  border-bottom: 4px solid #2563eb;
+  /* تدوير المربع ليصبح سهماً يشير لليسار */
+  transform: translateY(-50%) rotate(45deg);
+  transition: all 0.3s ease;
+  scale: 1;
+  opacity: 1;
+  border-radius: 5px 0px 5px 0px;
+}
+
+/* الأنيماش عند الـ Hover */
+h2.header:hover::before {
+  left: -50px;
+  transform: translateY(-10px) rotate(-45deg);
+  opacity: 0.3;
+  border-color: var(--accent);
+  animation: bounceArrow 0.4s infinite alternate;
+}
+
+/* تعريف حركة الصعود والنزول مع الحفاظ على القلبه */
+@keyframes bounceArrow {
+  0% {
+    opacity: 0.2;
+    transform: translateY(-70%) rotate(-45deg); /* يشير للأسفل ومرفوع قليلاً */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-20%) rotate(-45deg); /* ينزل للأسفل */
+  }
+}
+
+h2.header:hover {
+  transform: translateY(-3px);
+  scale: 0.99;
+}
+
+h2.header:hover::after {
+  width: 80%;
+}
+div.content-loading {
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  background-color: #0f172a56;
+  height: calc(100vh - 60px);
+  right: 0;
+  top: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: wait;
+  pointer-events: visibleFill;
+}
+
+.content-loading img {
+  width: 12vh;
+  height: 12vh;
+  border-radius: 100%;
+  position: relative;
+}
+
+div.content-loading::before {
+  content: "تحميل المحتوى...";
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%); /* هذه هي القطعة السحرية للتوسيط */
+  bottom: 25%;
+  width: fit-content;
+  color: var(--muted);
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+  opacity: 0.8;
+  display: block;
+  padding: 20px 10px;
+}
+
+footer {
+  grid-area: footer;
+  background: var(--secondary);
+  color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 100px;
+}
+
+/* =============================
+COMPONENTS
+============================= */
+
+.logo a {
+  font-size: 20px;
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+  color: white;
+  font-family: "Inter", sans-serif;
+  text-decoration: none;
+}
+
+.nav a {
+  color: #cbd5f5;
+  margin-right: 16px;
+  text-decoration: none;
+  border-bottom: 2.5px solid transparent;
+  padding: 7px 0;
+  font-size: 14px;
+}
+
+.nav a.active {
+  border-bottom: 2.5px solid #cbd5f5;
+}
+
+.nav a:hover {
+  color: white;
+}
+
+.menu h3 {
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.menu ul {
+  list-style: none;
+}
+
+.menu li {
+  margin: 14px 0;
+  padding-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  text-align: right;
+  border-right: 2px var(--primary) solid;
+}
+
+.menu a {
+  text-decoration: none;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.menu a:hover {
+  color: var(--primary);
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all ease-in-out 0.2s;
+  position: relative;
+  height: fit-content;
+}
+
+.card .image {
+  width: 100%;
+  overflow: hidden;
+  height: 180px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.card .image img {
+  border-radius: 10px;
+  width: 100%;
+  transition: all ease-in-out 0.2s;
+  object-fit: cover;
+}
+
+.card h4 {
+  margin-bottom: 10px;
+}
+
+.card h3.courses-count {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 15px;
+  color: #13d55a;
+  background-color: #0a757675;
+  text-shadow: 0px 0px 10px 10px rgb(255, 255, 255);
+  box-shadow: 6px 8px 10px rgba(0, 0, 0, 0.168);
+  padding: 5px 10px;
+  transition: all ease-in-out 0.2s;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card:hover .image img {
+  transform: scale(1.05);
+  object-fit: contain;
+}
+
+.card:hover h3.courses-count {
+  transform: translateX(-5px);
+}
+
+.card p {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  padding: 10px 5px;
+}
+
+.card button {
+  align-self: flex-start;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.card button:hover {
+  background: var(--primary);
+}
+
+/* =============================
+RESPONSIVE (مهم)
+============================= */
+@media (max-width: 1200px) {
+  body {
+    grid-template-areas:
+      "header"
+      "main"
+      "footer";
+    grid-template-columns: 1fr;
+  }
+
+  aside {
+    display: none;
+  }
+  .logo a {
+    font-size: 13px;
+  }
+  .nav a {
+    font-size: 11px;
+    margin-right: 10px;
+  }
+}
+@media (max-width: 700px) {
+  body {
+    grid-template-areas:
+      "header"
+      "main"
+      "footer";
+    grid-template-columns: 1fr;
+  }
+  .logo {
+    display: none;
+  }
+}
+
+/* =============================
+   COURSE PAGE GRID
+   ============================= */
+
+.course-layout {
+  min-height: 100vh;
+  display: grid;
+
+  grid-template-areas:
+    "header header"
+    "video lessons"
+    "content lessons";
+
+  grid-template-columns: 2fr 300px;
+  grid-template-rows: auto 550px 1fr;
+
+  gap: 20px;
+  padding: 20px;
+}
+
+.course-header {
+  grid-area: header;
+  background: var(--secondary);
+  color: white;
+  padding: 16px;
+  border-radius: var(--radius);
+}
+
+.course-video {
+  grid-area: video;
+}
+
+.video-box {
+  background: #000;
+  color: white;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.video-box video {
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: all;
+}
+
+.video-box img {
+  width: 100%;
+
+  object-fit: contain;
+}
+
+.course-lessons {
+  grid-area: lessons;
+  background: var(--card-gray);
+  border-radius: var(--radius);
+  /* min-height: 450px; */
+  height: fit-content;
+  max-height: 680px;
+  border-bottom: 1px dashed var(--secondary);
+  background-color: var(--card);
+  display: flex;
+  flex-direction: column;
+}
+
+.course-lessons .primary {
+  border: none;
+  width: auto;
+  color: var(--secondary);
+  border-bottom: black dashed 1px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.course-lessons .actions-btns {
+  margin-bottom: 15px;
+}
+
+ol.lessons-list {
+  overflow: hidden;
+  height: 70vh;
+}
+
+.course-lessons #lessons-count {
+  font-weight: normal;
+  font-size: 15px;
+  color: var(--primary);
+  padding: 4px 10px;
+  background-color: #2564eb1e;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin-right: 5px;
+  height: fit-content;
+}
+
+.course-lessons ol::-webkit-scrollbar {
+  width: 0;
+}
+.course-lessons ol.not-allowed {
+  cursor: not-allowed;
+}
+
+.course-lessons ol li:not(.done)::after {
+  content: "الذهاب ◀";
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: var(--primary);
+  background-color: var(--bg);
+  padding: 5px 15px;
+  border-radius: 20px 0 0 20px;
+  text-align: center;
+  opacity: 0;
+  font-size: small;
+  transition: all ease-in-out 0.1s;
+}
+
+.course-lessons ol li:not(.done):hover::after {
+  padding: 5px 15px;
+  right: 100px;
+  opacity: 0.2;
+}
+
+.delete-btn {
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: bold;
+  color: #666;
+  transition: 0.3s;
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-48%);
+  background: var(--primary);
+  color: #fff;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: anchor-center;
+  justify-content: center;
+  border-radius: 100%;
+  opacity: 0;
+}
+
+.delete-btn:hover {
+  scale: 1.3;
+}
+
+.course-lessons ol li:hover .delete-btn {
+  opacity: 1;
+  /* اللون الأحمر عند التمرير */
+}
+
+.course-lessons ol.not-allowed li:not(.done)::after {
+  content: "كورس مدفوع" !important;
+  opacity: 0.5 !important;
+  position: absolute !important;
+  transform: translate(-50%, -50%) !important;
+  left: 50% !important;
+  top: 50% !important;
+  color: var(--primary) !important;
+  border: 1px dashed var(--primary) !important;
+  border-radius: 2px !important;
+  padding: 4px 15px !important;
+  width: max-content !important;
+  display: block !important;
+}
+
+.course-lessons ol.not-allowed li:hover::after {
+  position: absolute !important;
+  transform: translateY(-50%) !important;
+  opacity: 0.8 !important;
+  padding: 7px 10px !important;
+}
+
+.course-lessons ol.not-allowed li {
+  cursor: not-allowed;
+  position: relative !important;
+  opacity: 0.9;
+  color: var(--muted);
+}
+.course-lessons ol {
+  overflow-y: auto;
+  padding: 10px 0;
+}
+
+.course-lessons li.active {
+  background-color: #2564eb1d;
+  pointer-events: none;
+  border: 1.5px dashed var(--primary);
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 16px;
+  /* color: var(--card); */
+  border-radius: 2px;
+}
+.course-lessons li {
+  list-style: decimal inside;
+  padding: 10px 20px;
+  padding-left: 25px;
+  margin-bottom: 10px;
+  border-right: 2px solid var(--primary);
+  position: relative;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14.5px;
+}
+
+.course-lessons ol li.no-lessons,
+.course-lessons ol.not-allowed li.no-lessons {
+  color: var(--primary);
+  text-align: center;
+  list-style: none;
+  border: 2px dotted var(--primary);
+  border-radius: 3px;
+  height: 50px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.course-lessons ol.not-allowed li.no-lessons::after {
+  display: none;
+}
+
+.course-lessons li.no-lessons::before {
+  display: none;
+}
+
+li.no-lessons {
+  pointer-events: none;
+}
+
+.course-lessons ol li::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  transform: translateY(-50%);
+}
+
+.course-lessons ol:not(.not-allowed) li.active::before {
+  background-color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.course-lessons ol:not(.not-allowed) li.done {
+  text-decoration: line-through;
+  color: var(--primary);
+}
+
+/* علامة الصح */
+.course-lessons ol:not(.not-allowed) li.done::after {
+  content: "✓";
+  position: absolute;
+  left: 13.5px;
+  top: 50%;
+  transform: translateY(-51%);
+  font-size: 14px;
+  color: #fff;
+
+  font-weight: bold;
+  display: block;
+}
+
+/* تغيير شكل العنصر المنتهي */
+.course-lessons ol:not(.not-allowed) li.done::before {
+  display: block;
+  border: 2px solid var(--primary);
+  background-color: var(--primary);
+}
+
+.course-lessons ol:not(.not-allowed) li.done {
+  color: var(--primary);
+  pointer-events: all;
+}
+
+.course-lessons .scroll-indicator {
+  font-size: 15px;
+  color: var(--primary);
+  text-align: center;
+  animation: bounce-down 1.4s ease-in-out infinite;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+/* الحركة */
+@keyframes bounce-down {
+  0% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: translateY(5px);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+}
+
+.course-content,
+.lesson-content {
+  grid-area: content;
+  background: var(--card);
+  padding: 16px;
+  border-radius: var(--radius);
+}
+
+.course-content p,
+.lesson-content p {
+  color: rgb(88, 88, 88);
+  font-weight: 500;
+  font-size: 14.5px;
+  line-height: 28px;
+}
+
+p span.show-more-paragraph {
+  border-bottom: 1px black solid;
+  font-weight: bold;
+  cursor: pointer;
+  color: #0f172a;
+  padding: 1px;
+  font-style: oblique;
+  display: inline;
+}
+
+/* =============================
+   COURSE PAGE - RESPONSIVE
+   ============================= */
+
+@media (max-width: 900px) {
+  .course-layout {
+    grid-template-areas:
+      "header"
+      "video"
+      "lessons"
+      "content";
+
+    grid-template-columns: 1fr;
+    grid-template-rows: 100px 350px auto auto;
+  }
+  .course-lessons {
+    display: block;
+  }
+
+  h2#course-title {
+    font-size: 19px;
+  }
+}
+
+.primary {
+  font-size: 20px;
+  color: var(--primary);
+  margin-bottom: 10px;
+  border-bottom: 3px solid var(--primary);
+  width: fit-content;
+  padding: 10px;
+}
+
+/* =============================
+   LOGIN PAGE
+   ============================= */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+}
+
+.login-container {
+  background: var(--card);
+  padding: 40px;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 360px;
+  display: grid;
+  gap: 16px;
+}
+
+.login-container h2 {
+  text-align: center;
+  color: var(--secondary);
+}
+
+.login-container input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 7px 0;
+}
+
+.login-container button {
+  background: var(--primary);
+  color: white;
+  font-weight: 500;
+  padding: 10px 0;
+  border-radius: 5px;
+  border: 1px var(--primary) solid;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  font-size: 17px;
+  margin-top: 5px;
+}
+
+.login-container button:hover {
+  background: var(--primary);
+}
+
+.login-container a.register {
+  color: var(--primary);
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  border: 1px var(--primary) solid;
+  padding: 10px 0;
+  border-radius: 5px;
+  font-size: 17px;
+  margin-top: -5px;
+}
+
+/* =============================
+   REGISTER PAGE
+   ============================= */
+.register-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+}
+
+.register-container {
+  background: var(--card);
+  padding: 40px;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: grid;
+  gap: 16px;
+}
+
+.register-container h2 {
+  text-align: center;
+  color: var(--secondary);
+}
+
+.register-container input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 7px 0;
+}
+
+.register-container button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 15px 0;
+  width: 100%;
+}
+
+.register-container button:hover {
+  background: #1d4ed8;
+}
+
+.register-container p {
+  font-size: 14px;
+  text-align: center;
+}
+
+.register-container p a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.register-container p a:hover {
+  text-decoration: underline;
+}
+
+/* =============================
+   TEACHERS PAGE
+   ============================= */
+
+.teachers-container {
+  padding: 24px;
+}
+
+.teachers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.teacher-card {
+  background: var(--card);
+  padding: 16px;
+  border-radius: var(--radius);
+  transition: all ease-in-out 0.3s;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.teacher-card .image {
+  width: 190px;
+  height: 190px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  margin: 10px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.teacher-card img {
+  height: 100%;
+  transition: all ease-in-out 0.3s;
+}
+
+.teacher-card .specialize-in {
+  color: var(--primary);
+  padding: 5px 0;
+  text-transform: capitalize;
+}
+
+.teacher-card p.students .number {
+  color: var(--accent);
+  font-weight: bold;
+  text-decoration: underline;
+  font-style: italic;
+}
+
+.teacher-card p.rates {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid var(--primary);
+  /* direction: ltr; */
+  padding: 10px 40px;
+  margin: 10px auto;
+  border-radius: 5px;
+  font-size: 17px;
+  color: var(--primary);
+}
+
+.teacher-card p.rates .state-rate {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+@media (max-width: 1000px) {
+  .teacher-card p.rates .state-rate {
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+
+/* =============================
+   COURSES PAGE
+   ============================= */
+.courses-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 24px;
+}
+button {
+  cursor: pointer;
+}
+
+.courses-container .card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+  height: fit-content;
+  width: auto;
+}
+
+.courses-container .card:hover,
+.teacher-card:hover {
+  transform: translateY(-5px);
+}
+
+.card .course-cover {
+  width: auto;
+  height: auto;
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+}
+
+.card .course-cover img {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .course-cover img,
+.teacher-card:hover .image img {
+  transform: scale(1.05);
+}
+
+.card .flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.card h4 {
+  margin-bottom: 8px;
+  color: var(--secondary);
+}
+
+.card .rating {
+  color: gold;
+  font-size: 25px;
+}
+
+.card p {
+  flex-grow: 0;
+  margin-bottom: 8px;
+}
+
+.card .teacher {
+  font-weight: bold;
+}
+
+.card .price {
+  color: var(--primary);
+  font-weight: bold;
+}
+.card button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.card button:hover {
+  background: #1d4ed8;
+}
+
+/* =============================
+   MY COURSES PAGE
+   ============================= */
+
+.my-courses-layout {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* ===== Summary ===== */
+.progress-summary {
+  background: var(--card);
+  padding: 20px;
+  border-radius: var(--radius);
+  height: fit-content;
+  text-align: center;
+}
+
+.level {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin: 15px 0;
+}
+
+.progress-summary .stars {
+  color: gold;
+  margin-bottom: 10px;
+  font-size: 26px;
+}
+
+/* ===== Courses ===== */
+.my-courses {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content;
+  gap: 20px;
+}
+
+.course-card {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  height: fit-content;
+  overflow: hidden;
+  position: relative;
+}
+
+.course-card .image {
+  min-width: 200px;
+}
+
+.course-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.course-info {
+  padding: 20px;
+}
+
+/* ===== Progress Bar ===== */
+.progress-bar {
+  width: 300px;
+  height: 10px;
+  background: #f3f3f3;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 8px 10px;
+}
+
+.progress-container {
+  display: flex;
+  align-self: center;
+  justify-content: start;
+  margin: 10px 0;
+}
+
+.progress {
+  height: 100%;
+  border-radius: 10px;
+  background: var(--primary);
+}
+
+.progress-text {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.course-info button {
+  margin-top: 12px;
+  background: var(--primary);
+  color: white;
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* =============================
+   RESPONSIVE - MY COURSES
+   ============================= */
+
+@media (max-width: 768px) {
+  .my-courses-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .my-courses {
+    grid-template-columns: 1fr;
+  }
+
+  .course-card {
+    grid-template-columns: 1fr;
+  }
+
+  .course-card img {
+    height: 160px;
+  }
+  .course-card button {
+    position: static;
+    width: 100%;
+  }
+}
+
+@media (max-width: 1024px) {
+  .course-card button {
+    position: static;
+    width: 100%;
+  }
+
+  .progress-bar {
+    width: 100%;
+  }
+}
+
+/* =============================
+   CREATE COURSE PAGE
+   ============================= */
+
+.create-course-container {
+  max-width: 700px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.course-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: fit-content;
+  background: var(--card);
+  padding: 24px;
+  border-radius: var(--radius);
+}
+
+.course-form select::selection {
+  max-height: 60px;
+}
+
+.course-form select,
+.course-form select option {
+  width: 250px;
+  padding: 100px;
+}
+
+/* عنصر ياخد صف كامل */
+.course-form .form-group:nth-child(1),
+.course-form .form-group:nth-child(2),
+.course-form .form-group:nth-child(3) {
+  grid-column: 1 / -1;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.course-form button {
+  grid-column: 1 / -1;
+  padding: 12px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+h2#course-title {
+  font-family: "Inter", sans-serif;
+}
+
+/* --- Add Lesson Page Scoped Styles --- */
+
+.add-lesson-page {
+  background-color: #f8fafc;
+  display: flex;
+  justify-content: center;
+  align-items: safe;
+  height: 70vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 10px;
+}
+
+.add-lesson-page header {
+  width: 100%;
+  position: fixed;
+  top: 0;
+}
+
+.lesson-form-container {
+  width: 100%;
+  height: fit-content;
+  max-width: 650px;
+}
+
+.lesson-card {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  position: relative;
+  margin: 80px 0;
+  padding-bottom: 60px;
+  height: fit-content;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.form-title {
+  color: #0f172a;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 8px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-subtitle {
+  color: #64748b;
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+/* التنسيق الموحد للحقول */
+.input-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.input-group label {
+  font-weight: 600;
+  color: #334155;
+  font-size: 13px;
+}
+
+.input-group input[type="text"],
+.input-group input[type="number"],
+.input-group textarea,
+.input-group select {
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background-color: #fcfcfc;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: #2563eb;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+/* تنسيق حقل الـ Checkbox */
+.checkbox-group {
+  flex-direction: row !important;
+  align-items: center;
+  padding-top: 30px;
+}
+
+.checkbox-group input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* منطقة رفع الملفات */
+.video-upload-box .file-drop-area {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border: 2px dashed #cbd5e1;
+  border-radius: 12px;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.video-upload-box .file-drop-area:hover {
+  border-color: #2563eb;
+  background: rgba(37, 99, 235, 0.02);
+}
+
+.file-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.fake-btn {
+  background: #e2e8f0;
+  padding: 5px 15px;
+  border-radius: 6px;
+  font-size: 12px;
+  margin-left: 10px;
+  color: #475569;
+}
+
+/* زر الإرسال الأساسي */
+.actions-btns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  align-items: stretch;
+  gap: 10px;
+}
+.submit-btn,
+.enroll-btn,
+.add-lesson-btn,
+.url-btn {
+  width: 100%;
+  background-color: #2563eb;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.add-lesson-btn.hidden,
+.enroll-btn.hidden {
+  display: none;
+}
+
+.submit-btn:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+.lesson-card .progress-container {
+  width: 100%;
+  background: #ffffffc0;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  position: relative;
+  /* bottom: 10px;
+  left: 50%; */
+  padding: 0;
+  margin: 0;
+  transform: translateY(125%);
+  border-radius: 3px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px var(--primary) solid;
+}
+
+.lesson-card .progress-container::after {
+  content: "شريط رفع الفيديو";
+  position: absolute;
+  /* bottom: -18px;
+  right: 1%; */
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 12px;
+  z-index: -1;
+}
+
+.lesson-card .progress-container .progress-bar {
+  width: 0%;
+  height: 100%;
+  background: #2563eb;
+  text-align: center;
+  color: white;
+  margin: 0;
+  border-radius: 3px;
+  padding: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN SYSTEM - اضف هذا الكود في نهاية ملف main.css
+   ========================================================================== */
+
+/* 1. الشاشات المتوسطة (Tablets & Small Laptops) - أقل من 1024px */
+
+@media (max-width: 1350px) {
+  .course-layout {
+    grid-template-columns: 1fr; /* تحويل العرض الجانبي إلى عمودي */
+    grid-template-areas:
+      "header"
+      "video"
+      "lessons"
+      "content";
+    padding: 10px;
+  }
+}
+@media (max-width: 1024px) {
+  /* تعديل صفحة الكورس والدرس */
+  .course-layout {
+    grid-template-columns: 1fr; /* تحويل العرض الجانبي إلى عمودي */
+    grid-template-areas:
+      "header"
+      "video"
+      "lessons"
+      "content";
+    padding: 10px;
+  }
+
+  aside.course-lessons {
+    max-height: 450px;
+    /* overflow-y: auto; */
+    border-left: none;
+    border-top: 1px solid #eee;
+  }
+
+  /* تعديل الصفحة الرئيسية (السايدبار والـ index) */
+  body {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "header"
+      "main"
+      "footer";
+  }
+
+  aside {
+    display: none; /* إخفاء السايدبار الجانبي في الموبايل */
+  }
+}
+
+/* تحسينات عامة لكل الشاشات الصغيرة */
+@media (max-width: 992px) {
+  .course-card {
+    flex-direction: column;
+  }
+
+  .course-card .image {
+    width: 100%;
+    height: 200px;
+  }
+}
+
+/* 2. شاشات الموبايل (Mobile Phones) - أقل من 768px */
+@media (max-width: 768px) {
+  /* الهيدر والملاحة */
+
+  * {
+    max-width: 100% !important;
+  }
+
+  body {
+    grid-template-rows: auto;
+  }
+
+  header {
+    flex-direction: column;
+    height: auto;
+    max-height: max-content;
+    padding: 15px 10px;
+    gap: 10px;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .nav a {
+    font-size: 11px;
+    padding: 5px 3px;
+  }
+
+  /* شبكات العرض (المعلمين والكورسات) */
+  .teachers-grid,
+  .courses-container,
+  #courses-categories-container,
+  .my-courses-container {
+    grid-template-columns: 1fr !important; /* كارت واحد في الصف */
+    gap: 15px;
+    padding: 10px;
+  }
+
+  /* النماذج (التسجيل، إضافة درس، إنشاء كورس) */
+  .register-container,
+  .lesson-form-container,
+  .create-course-container {
+    max-width: max-content !important;
+    min-width: auto !important;
+    width: 100% !important;
+    padding: 5px;
+    margin: 10px auto;
+  }
+
+  .course-form {
+    padding: 20px 10px;
+  }
+  .register-form {
+    padding: 20px;
+    width: 95%;
+  }
+
+  /* صفحة تفاصيل الدرس */
+  .title-right {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .video-box {
+    aspect-ratio: 16/9;
+    height: auto;
+  }
+
+  /* الأزرار العائمة (مثل زر انضم كمعلم) */
+  div[style*="position: fixed"] {
+    position: static !important;
+    width: 100% !important;
+    margin-top: 20px;
+  }
+
+  /* الـ Modal (نافذة الدفع) */
+  .modal-content {
+    width: 95%;
+    padding: 15px;
+  }
+}
+
+/* 3. الهواتف الصغيرة جداً - أقل من 480px */
+@media (max-width: 480px) {
+  h2,
+  .header {
+    font-size: 1.2rem !important;
+  }
+
+  .submit-btn,
+  .enroll-btn,
+  .primary-btn {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .teacher-card .image img {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* إخفاء نصوص الـ Nav لزيادة المساحة أو تصغيرها */
+  .nav a {
+    font-size: 10px;
+  }
+}
