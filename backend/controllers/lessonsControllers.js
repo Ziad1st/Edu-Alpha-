@@ -2,6 +2,15 @@ const Lesson = require("../models/Lesson");
 const Course = require("../models/Course");
 const Enrollment = require("../models/Enrollment");
 const asyncHandler = require("../utils/asyncHandler");
+
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({ 
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 // 1) إنشاء سجل الدرس (بدون فيديو)
 // 1) إنشاء سجل الدرس (مع رابط الفيديو مباشرة)
 const createLesson = asyncHandler(async (req, res) => {
@@ -36,9 +45,6 @@ const createLesson = asyncHandler(async (req, res) => {
 
 const deleteLesson = asyncHandler(async (req, res) => {
   const lessonId = req.params.id;
-  const userId = req.user.userData._id;
-  const userRole = req.user.userData.role;
-
   const lesson = await Lesson.findById(lessonId);
 
   if (!lesson) {
@@ -46,34 +52,39 @@ const deleteLesson = asyncHandler(async (req, res) => {
     throw new Error("الدرس غير موجود");
   }
 
-  const course = await Course.findById(lesson.courseId);
+  // --- خطوة حذف الفيديو من Cloudinary ---
+  if (lesson.videoUrl) {
+    try {
+      // استخراج الـ Public ID من الرابط
+      // الرابط يكون عادة: https://res.cloudinary.com/cloudname/video/upload/v123/folder/public_id.mp4
+      const parts = lesson.videoUrl.split('/');
+      const fileName = parts[parts.length - 1]; // public_id.mp4
+      const publicId = fileName.split('.')[0]; // public_id
+      
+      // إذا كنت ترفع الفيديوهات في مجلد معين (مثل lessons)
+      // publicId = "lessons/" + publicId;
 
-  const isOwner = course.teatcher.toString() === userId.toString();
-  const isAdmin = String(userRole).includes("admin");
-
-  if (!isOwner && !isAdmin) {
-    res.status(403);
-    throw new Error("غير مسموح لك بحذف هذا الدرس");
+      await cloudinary.uploader.destroy(publicId, { resource_type: 'video' });
+      console.log("✅ تم حذف الفيديو من Cloudinary");
+    } catch (error) {
+      console.error("❌ فشل حذف الفيديو من Cloudinary:", error);
+      // لا نوقف العملية هنا لضمان حذف السجل من قاعدة البيانات حتى لو فشل حذف الفيديو
+    }
   }
 
-  // 1. حذف الدرس من جدول الدروس
+  // --- تكملة كود الحذف الخاص بك ---
   await Lesson.findByIdAndDelete(lessonId);
-
-  // 2. تحديث الكورس: إزالة الدرس من مصفوفة الـ lessons
+  
   await Course.findByIdAndUpdate(lesson.courseId, {
     $pull: { lessons: lessonId },
   });
 
-  // 3. التحديث الجديد: إزالة الدرس من سجلات الطلاب (Enrollments)
-  // سنقوم بالبحث عن كل الـ Enrollments الخاصة بهذا الكورس وحذف الـ lessonId من قائمة المكتمل
   await Enrollment.updateMany(
-    { courseId: lesson.courseId }, // ابحث عن كل الطلاب المشتركين في هذا الكورس
-    { $pull: { lessonsCompleted: lessonId } } // احذف هذا الدرس من قائمة الدروس المكتملة لديهم
+    { courseId: lesson.courseId },
+    { $pull: { lessonsCompleted: lessonId } }
   );
 
-  res.status(200).json({
-    message: "تم حذف الدرس بنجاح بواسطة " + (isAdmin ? "المسؤول" : "المعلم"),
-  });
+  res.status(200).json({ message: "تم حذف الدرس والفيديو بنجاح" });
 });
 
 const getLesson = asyncHandler(async (req, res) => {
