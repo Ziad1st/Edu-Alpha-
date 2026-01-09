@@ -1,5 +1,8 @@
-const { createCanvas } = require("canvas");
-
+const { createCanvas, registerFont } = require("canvas");
+const path = require("path");
+registerFont(path.join(__dirname, "fonts", "Cairo-Bold.ttf"), {
+  family: "Cairo",
+});
 const generateCategoryCover = (categoryName) => {
   const width = 800;
   const height = 450;
@@ -80,7 +83,7 @@ const generateCategoryCover = (categoryName) => {
   ctx.textBaseline = "middle";
 
   // استخدام خط عريض جداً ونظيف
-  ctx.font = "bold 60px system-ui, sans-serif";
+  ctx.font = "bold 60px Cairo";
 
   const maxWidth = width * 0.75;
   const words = categoryName.split(" ");
