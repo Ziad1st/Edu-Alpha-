@@ -22,26 +22,21 @@ videoInput.addEventListener("change", (e) => {
 });
 
 // ===============================
-// 2) دالة الرفع (Binary Upload)
+// 2) دالة الرفع لـ Cloudinary (باستخدام XHR لتشغيل الشريط)
 // ===============================
-// ملاحظة: الـ XHR لا يستخدم smartFetch تلقائياً، ولكن بما أنك ترفع فيديو كبير
-// فالأفضل ترك منطق الـ Retry بداخلها بشكل مبسط باستخدام التوكن الجديد
-function uploadVideoBinary(file, lessonId) {
+function uploadToCloudinary(file) {
   return new Promise((resolve, reject) => {
+    const cloudName = "daaxlwz06";
+    const uploadPreset = "xi2flf4u";
+
     const xhr = new XMLHttpRequest();
     xhr.open(
-      "PATCH",
-      `https://edu-alpha-neon.vercel.app/api/lessons/upload-video/${lessonId}`,
+      "POST",
+      `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`,
       true
     );
 
-    // نأخذ التوكن الأحدث الموجود في الـ localStorage (الذي قد تكون حدثته smartFetch)
-    const token = localStorage.getItem("accessToken");
-    if (token) xhr.setRequestHeader("Authorization", `Bearer ${token}`);
-
-    const videoData = new FormData();
-    videoData.append("video", file);
-
+    // --- الجزء المسؤول عن تحريك الشريط ---
     xhr.upload.onprogress = (e) => {
       if (e.lengthComputable && progressBar) {
         const percent = Math.round((e.loaded / e.total) * 100);
@@ -51,23 +46,28 @@ function uploadVideoBinary(file, lessonId) {
     };
 
     xhr.onload = () => {
+      const response = JSON.parse(xhr.responseText);
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response);
+        resolve(response.secure_url); // نرجع رابط الفيديو
       } else {
-        const errorMsg = JSON.parse(
-          xhr.responseText || '{"message":"خطأ في الرفع"}'
+        reject(
+          new Error(response.error?.message || "فشل رفع الفيديو لـ Cloudinary")
         );
-        reject(errorMsg);
       }
     };
 
-    xhr.onerror = () => reject({ message: "فشل الاتصال بالسيرفر" });
-    xhr.send(videoData);
+    xhr.onerror = () => reject(new Error("فشل الاتصال بـ Cloudinary"));
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset);
+
+    xhr.send(formData);
   });
 }
 
 // ===============================
-// 3) Submit Handler
+// 3) Submit Handler (المعدل)
 // ===============================
 addLessonForm.addEventListener("submit", async function handleSubmit(e) {
   if (e) e.preventDefault();
@@ -78,36 +78,36 @@ addLessonForm.addEventListener("submit", async function handleSubmit(e) {
   const videoFile = videoInput.files[0];
   if (!videoFile) return errorMessageHandler("❌ يرجى اختيار فيديو");
 
-  const lessonData = {
-    title: document.getElementById("title").value,
-    description: document.getElementById("description").value,
-    order: document.getElementById("order").value,
-    isFree: document.getElementById("isFree")?.checked || false,
-    courseId: courseId,
-  };
-
   try {
     submitBtn.disabled = true;
-    submitBtn.innerText = "جاري إنشاء الدرس...";
+    submitBtn.innerText = "جاري رفع الفيديو لـ Cloudinary...";
 
-    // المرحلة الأولى: إنشاء الدرس باستخدام الدالة الذكية
-    // smartFetch ستتولى الـ Refresh تلقائياً إذا أعاد السيرفر 401
-    let res = await smartFetch("https://edu-alpha-neon.vercel.app/api/lessons", {
+    // المرحلة الأولى: رفع الفيديو لـ Cloudinary والحصول على الرابط
+    // ملاحظة: يمكنك هنا تحديث الـ ProgressBar يدوياً إذا استخدمت XMLHttpRequest للرفع لـ Cloudinary
+    const videoURL = await uploadToCloudinary(videoFile);
+
+    // المرحلة الثانية: إرسال رابط الفيديو مع بيانات الدرس للباك-إند
+    submitBtn.innerText = "جاري حفظ بيانات الدرس...";
+
+    const lessonData = {
+      title: document.getElementById("title").value,
+      description: document.getElementById("description").value,
+      order: document.getElementById("order").value,
+      isFree: document.getElementById("isFree")?.checked || false,
+      courseId: courseId,
+      videoUrl: videoURL, // 👈 نرسل الرابط هنا بدلاً من رفعه لاحقاً
+    };
+
+    let res = await smartFetch("http://localhost:5000/api/lessons", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(lessonData),
     });
 
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || "فشل إنشاء الدرس");
 
-    // المرحلة الثانية: رفع الفيديو
-    submitBtn.innerText = "جاري رفع الفيديو...";
-    await uploadVideoBinary(videoFile, data.lessonId);
-
-    alert("✅ تم الرفع بنجاح");
+    alert("✅ تم الرفع والحفظ بنجاح");
     window.location.href = `course.html?course=${courseId}`;
   } catch (error) {
     errorMessageHandler(error.message);
