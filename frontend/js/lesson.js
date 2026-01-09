@@ -73,12 +73,9 @@ window.addEventListener("load", async () => {
       }, 3000);
     }
   }
-
-  const cleanPath = lesson.videoUrl.startsWith("/")
-    ? lesson.videoUrl.substring(1)
-    : lesson.videoUrl;
+  
   const videoEl = document.createElement("video");
-  videoEl.src = `https://edu-alpha-neon.vercel.app/${cleanPath}`;
+  videoEl.src = lesson.videoUrl;
   videoEl.controls = "true";
   videoEl.oncontextmenu = "return false;";
   videoEl.controlsList = "nodownload";
@@ -183,3 +180,4 @@ lessonDone.addEventListener("change", (e) => {
     .querySelector("li.lesson-li.active")
     .classList.toggle("done", e.target.checked);
 });
+
