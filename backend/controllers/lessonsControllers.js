@@ -3,8 +3,16 @@ const Course = require("../models/Course");
 const Enrollment = require("../models/Enrollment");
 const asyncHandler = require("../utils/asyncHandler");
 // 1) إنشاء سجل الدرس (بدون فيديو)
+// 1) إنشاء سجل الدرس (مع رابط الفيديو مباشرة)
 const createLesson = asyncHandler(async (req, res) => {
-  const { title, courseId, description, order, isFree } = req.body;
+  // أضفنا videoUrl هنا لاستقباله من الـ req.body
+  const { title, courseId, description, order, isFree, videoUrl } = req.body;
+
+  // التحقق من أن رابط الفيديو موجود
+  if (!videoUrl) {
+    res.status(400);
+    throw new Error("يرجى تزويد رابط الفيديو (Cloudinary URL)");
+  }
 
   const newLesson = await Lesson.create({
     title,
@@ -12,7 +20,7 @@ const createLesson = asyncHandler(async (req, res) => {
     courseId,
     order,
     isFree,
-    videoUrl: "", // سيبقى فارغاً حتى يتم رفع الفيديو في الطلب الثاني
+    videoUrl, // يتم حفظ الرابط القادم من Cloudinary هنا مباشرة
   });
 
   // ربط الدرس بالكورس
@@ -21,10 +29,11 @@ const createLesson = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json({
-    message: "تم إنشاء سجل الدرس بنجاح، جاري بدء رفع الفيديو...",
-    lessonId: newLesson._id, // نرسل الـ ID للفرونت إند ليستخدمه في طلب الرفع
+    message: "تم إنشاء الدرس بنجاح وحفظ الفيديو أونلاين",
+    lesson: newLesson,
   });
 });
+
 const deleteLesson = asyncHandler(async (req, res) => {
   const lessonId = req.params.id;
   const userId = req.user.userData._id;
@@ -64,29 +73,6 @@ const deleteLesson = asyncHandler(async (req, res) => {
 
   res.status(200).json({
     message: "تم حذف الدرس بنجاح بواسطة " + (isAdmin ? "المسؤول" : "المعلم"),
-  });
-});
-
-// 2) رفع الفيديو وتحديث السجل (باستخدام Multer)
-const uploadLessonVideo = asyncHandler(async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: "يرجى اختيار فيديو للرفع" });
-  }
-
-  const { lessonId } = req.params;
-
-  // تحديث سجل الدرس بمسار الفيديو الجديد
-  const updatedLesson = await Lesson.findByIdAndUpdate(
-    lessonId,
-    { videoUrl: `/uploads/videos/${req.file.filename}` },
-    { new: true }
-  );
-
-  console.log(updatedLesson, "\n video url ===> " + updatedLesson.videoUrl);
-
-  res.status(200).json({
-    message: "تم رفع الفيديو بنجاح",
-    videoUrl: updatedLesson.videoUrl,
   });
 });
 
@@ -133,7 +119,6 @@ const updateLessonCompletion = asyncHandler(async (req, res) => {
 module.exports = {
   createLesson,
   getLesson,
-  uploadLessonVideo,
   updateLessonCompletion,
   deleteLesson,
 };
