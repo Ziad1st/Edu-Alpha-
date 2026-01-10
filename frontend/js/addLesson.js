@@ -98,7 +98,7 @@ addLessonForm.addEventListener("submit", async function handleSubmit(e) {
       videoUrl: videoURL, // 👈 نرسل الرابط هنا بدلاً من رفعه لاحقاً
     };
 
-    let res = await smartFetch("http://localhost:5000/api/lessons", {
+    let res = await smartFetch("https://edu-alpha-neon.vercel.app/api/lessons", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(lessonData),
@@ -125,3 +125,4 @@ function resetUI() {
     submitBtn.innerText = "رفع الدرس الآن";
   }
 }
+
